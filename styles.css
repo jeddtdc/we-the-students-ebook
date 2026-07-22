@@ -447,6 +447,62 @@ section {
   font-weight: 600;
 }
 
+/* the photo break between the letter and part one.
+   every photo gets cropped to the same shape so it stays tidy no matter
+   what size the original was - swap the files, don't touch this */
+.photo-band {
+    background: var(--paper);
+    padding: 0 24px 110px;
+    display: flex;
+    justify-content: center;
+}
+
+.photo-grid {
+    margin: 0;
+    width: 100%;
+    max-width: 1080px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.photo-grid img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    background: var(--paper-2);
+}
+
+/* the group shot runs the full width and sits a bit wider */
+.photo-grid .photo-wide {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+}
+
+.photo-grid figcaption {
+    grid-column: 1 / -1;
+    margin-top: 4px;
+    font-size: 13.5px;
+    color: var(--muted);
+}
+
+@media (max-width: 640px) {
+    .photo-band {
+        padding: 0 20px 72px;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    /* one column on phones, so the group shot doesn't need to be extra wide */
+    .photo-grid .photo-wide {
+        aspect-ratio: 3 / 2;
+    }
+}
+
 /* alternating background so sections don't blur together */
 .shade {
   background: var(--paper-2);
