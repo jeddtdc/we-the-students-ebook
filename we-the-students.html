@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>We The Students — An Open Letter on AI in Education</title>
+<meta name="description" content="An international student-led open letter on generative AI in education.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,600&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#18140f;
+    --paper:#f4efe3;
+    --paper-2:#ece4d3;
+    --cover:#100e0c;
+    --terracotta:#c1701f;
+    --terracotta-deep:#8c4f14;
+    --terracotta-soft:#e0a668;
+    --muted:#6f6455;
+    --line: rgba(24,20,15,0.14);
+    --line-on-dark: rgba(244,239,227,0.16);
+    --maxw: 780px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    letter-spacing:-0.01em;
+    margin:0 0 0.4em 0;
+    color:var(--ink);
+  }
+
+  a{color:var(--terracotta-deep);}
+  a:focus-visible, button:focus-visible, .navlink:focus-visible{
+    outline:2px solid var(--terracotta);
+    outline-offset:3px;
+  }
+
+  /* ---------- progress bar ---------- */
+  #progress{
+    position:fixed;
+    top:0; left:0;
+    height:3px;
+    width:0%;
+    background:var(--terracotta);
+    z-index:100;
+    transition:width 0.08s linear;
+  }
+
+  /* ---------- side rail nav ---------- */
+  #rail{
+    position:fixed;
+    top:0; left:0;
+    height:100vh;
+    width:76px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:26px;
+    z-index:90;
+    background:transparent;
+  }
+  .rail-dot{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    cursor:pointer;
+    background:none;
+    border:none;
+    padding:6px 0;
+    font-family:'Inter',sans-serif;
+  }
+  .rail-num{
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--muted);
+    font-variant-numeric: tabular-nums;
+    transition:color 0.25s ease;
+  }
+  .rail-bar{
+    width:2px;
+    height:22px;
+    background:var(--line);
+    transition:background 0.25s ease, height 0.25s ease;
+  }
+  .rail-dot.active .rail-num{color:var(--terracotta-deep); font-weight:700;}
+  .rail-dot.active .rail-bar{background:var(--terracotta); height:32px;}
+  .rail-dot:hover .rail-bar{background:var(--terracotta-soft);}
+
+  #rail.on-dark .rail-num{color:rgba(244,239,227,0.55);}
+  #rail.on-dark .rail-bar{background:var(--line-on-dark);}
+  #rail.on-dark .rail-dot.active .rail-num{color:var(--terracotta-soft);}
+
+  @media (max-width: 860px){
+    #rail{display:none;}
+  }
+
+  /* mobile top nav */
+  #mobilebar{
+    display:none;
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:95;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    padding:10px 16px;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    overflow-x:auto;
+    white-space:nowrap;
+    -ms-overflow-style:none;
+    scrollbar-width:none;
+  }
+  #mobilebar::-webkit-scrollbar{display:none;}
+  #mobilebar button{
+    background:none;border:none;
+    color:var(--muted);
+    padding:6px 10px;
+    font-size:13px;
+    font-family:'Inter',sans-serif;
+    cursor:pointer;
+  }
+  #mobilebar button.active{color:var(--terracotta-deep); font-weight:700;}
+  @media (max-width: 860px){
+    #mobilebar{display:block;}
+    body{padding-top:0;}
+  }
+
+  section{
+    position:relative;
+    padding:120px 24px;
+    display:flex;
+    justify-content:center;
+  }
+  @media (max-width:860px){
+    section{padding:96px 20px 72px;}
+  }
+  .inner{width:100%; max-width:var(--maxw);}
+
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--terracotta-deep);
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:2px;
+    background:var(--terracotta);
+    display:inline-block;
+  }
+
+  /* ---------- cover ---------- */
+  #cover{
+    background:var(--cover);
+    color:var(--paper);
+    min-height:100svh;
+    padding:0 24px;
+    text-align:left;
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(193,112,31,0.18), transparent 55%),
+      radial-gradient(ellipse at 85% 90%, rgba(193,112,31,0.10), transparent 50%);
+  }
+  #cover .inner{max-width:920px;}
+  #cover .kicker{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--terracotta-soft);
+    margin-bottom:28px;
+  }
+  #cover h1{
+    font-size:clamp(48px, 9vw, 108px);
+    line-height:0.96;
+    color:var(--paper);
+    margin-bottom:0;
+  }
+  #cover h1 span{color:var(--terracotta);}
+  #cover .subhead{
+    margin-top:34px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(20px,3vw,30px);
+    color:rgba(244,239,227,0.82);
+    max-width:640px;
+    line-height:1.35;
+  }
+  #cover .tag{
+    margin-top:48px;
+    font-size:14px;
+    color:rgba(244,239,227,0.5);
+    letter-spacing:0.02em;
+  }
+  .scrolldown{
+    position:absolute;
+    bottom:38px; left:24px;
+    display:flex; align-items:center; gap:10px;
+    font-size:12px; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(244,239,227,0.45);
+  }
+  .scrolldown .chev{
+    width:1px; height:26px; background:rgba(244,239,227,0.35);
+    position:relative; overflow:hidden;
+  }
+  .scrolldown .chev::after{
+    content:"";
+    position:absolute; top:-100%; left:0; width:100%; height:100%;
+    background:var(--terracotta);
+    animation:runline 1.8s infinite ease-in-out;
+  }
+  @keyframes runline{
+    0%{top:-100%;} 60%{top:100%;} 100%{top:100%;}
+  }
+
+  /* ---------- belief statement ---------- */
+  #belief blockquote{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:clamp(28px, 4.4vw, 46px);
+    line-height:1.14;
+    margin:0 0 40px 0;
+    color:var(--ink);
+  }
+  #belief blockquote .accent{color:var(--terracotta-deep);}
+
+  .initiative-list{
+    list-style:none;
+    margin:0; padding:0;
+    counter-reset:init;
+    display:flex; flex-direction:column; gap:22px;
+    margin-top:28px;
+  }
+  .initiative-list li{
+    counter-increment:init;
+    display:grid;
+    grid-template-columns:40px 1fr;
+    gap:16px;
+    padding-bottom:22px;
+    border-bottom:1px solid var(--line);
+  }
+  .initiative-list li:last-child{border-bottom:none; padding-bottom:0;}
+  .initiative-list li::before{
+    content:counter(init, decimal-leading-zero);
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:15px;
+    color:var(--terracotta);
+  }
+  .initiative-list p{margin:0; color:var(--ink);}
+  .initiative-list .meta{
+    display:block; margin-top:4px; font-size:14px; color:var(--muted);
+  }
+
+  .aim-box{
+    margin-top:56px;
+    padding:28px 30px;
+    background:var(--paper-2);
+    border-left:3px solid var(--terracotta);
+    font-size:16px;
+    color:var(--ink);
+  }
+  .contact-line{
+    margin-top:28px;
+    font-size:15px;
+    color:var(--muted);
+  }
+  .contact-line a{
+    font-weight:600;
+  }
+
+  /* ---------- alt section shading ---------- */
+  .shade{background:var(--paper-2);}
+
+  /* ---------- numbered feature blocks ---------- */
+  .feature{
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:20px;
+    padding:32px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .feature:first-of-type{padding-top:0;}
+  .feature:last-of-type{border-bottom:none;}
+  .feature .num{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:34px;
+    color:var(--terracotta);
+    line-height:1;
+  }
+  .feature h3{
+    font-size:22px;
+    margin-bottom:10px;
+  }
+  .feature p{margin:0 0 10px 0; color:var(--ink);}
+  .feature ul{margin:10px 0 0 0; padding-left:18px; color:var(--ink);}
+  .feature ul li{margin-bottom:6px;}
+
+  /* ---------- stat cards ---------- */
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+    margin-top:20px;
+  }
+  @media (max-width:640px){
+    .stat-grid{grid-template-columns:1fr;}
+  }
+  .stat-card{
+    background:var(--terracotta);
+    color:var(--paper);
+    padding:26px 22px;
+    min-height:150px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+  }
+  .stat-card:nth-child(2){background:var(--terracotta-deep);}
+  .stat-card:nth-child(3){background:#a95f18;}
+  .stat-num{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:44px;
+    line-height:1;
+    margin-bottom:10px;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label{font-size:13px; line-height:1.4; color:rgba(244,239,227,0.9);}
+
+  /* ---------- readiness meter (3.2 -> 6.1) ---------- */
+  .meter-wrap{
+    margin:28px 0 8px;
+    padding:26px 26px 30px;
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .meter-labels{
+    display:flex; justify-content:space-between;
+    font-size:13px; color:rgba(244,239,227,0.6);
+    margin-bottom:10px;
+  }
+  .meter-track{
+    position:relative;
+    height:10px;
+    background:rgba(244,239,227,0.14);
+    border-radius:6px;
+    overflow:hidden;
+  }
+  .meter-fill{
+    position:absolute; left:0; top:0; bottom:0;
+    width:0%;
+    background:linear-gradient(90deg, var(--terracotta-deep), var(--terracotta));
+    border-radius:6px;
+    transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+  }
+  .meter-caption{
+    margin-top:16px;
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:600;
+  }
+  .meter-caption .from{color:rgba(244,239,227,0.55);}
+  .meter-caption .to{color:var(--terracotta-soft);}
+
+  /* ---------- recommendation groups ---------- */
+  .rec-group{margin-bottom:52px;}
+  .rec-group:last-child{margin-bottom:0;}
+  .rec-head{
+    display:flex; align-items:baseline; gap:14px;
+    margin-bottom:16px;
+  }
+  .rec-head .tag{
+    font-family:'Fraunces', serif;
+    font-weight:900;
+    font-size:15px;
+    color:var(--paper);
+    background:var(--terracotta);
+    padding:3px 10px;
+    border-radius:2px;
+  }
+  .rec-head h3{margin:0; font-size:23px;}
+  .rec-group ul{
+    list-style:none; margin:0; padding:0;
+  }
+  .rec-group li{
+    position:relative;
+    padding:14px 0 14px 26px;
+    border-bottom:1px solid var(--line);
+    color:var(--ink);
+  }
+  .rec-group li:last-child{border-bottom:none;}
+  .rec-group li::before{
+    content:"→";
+    position:absolute; left:0; top:14px;
+    color:var(--terracotta);
+    font-weight:700;
+  }
+  .rec-group li em{font-style:italic; color:var(--muted);}
+
+  /* ---------- summit / attendees ---------- */
+  .people-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px 40px;
+    margin-top:24px;
+  }
+  @media (max-width:640px){
+    .people-grid{grid-template-columns:1fr;}
+  }
+  .people-block h4{
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--terracotta-deep);
+    margin:0 0 10px 0;
+  }
+  .people-block p{
+    margin:0; font-size:14.5px; color:var(--ink); line-height:1.8;
+  }
+
+  /* ---------- signatories ---------- */
+  .sig-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:28px 22px;
+    margin-top:30px;
+  }
+  @media (max-width:640px){
+    .sig-grid{grid-template-columns:1fr 1fr;}
+  }
+  .sig-card{
+    text-align:center;
+    padding:18px 10px 14px;
+    border:1px solid var(--line);
+  }
+  .sig-name-script{
+    font-family:'Caveat', cursive;
+    font-size:30px;
+    color:var(--ink);
+    margin-bottom:8px;
+    line-height:1;
+  }
+  .sig-underline{
+    width:60%;
+    height:1px;
+    background:var(--line);
+    margin:0 auto 10px;
+  }
+  .sig-role{
+    font-size:12px; color:var(--muted); line-height:1.4;
+  }
+
+  /* ---------- closing ---------- */
+  #closing{
+    background:var(--cover);
+    color:var(--paper);
+    text-align:left;
+  }
+  #closing h2{
+    color:var(--paper);
+    font-size:clamp(30px,5vw,52px);
+    line-height:1.08;
+  }
+  #closing p{
+    color:rgba(244,239,227,0.72);
+    font-size:17px;
+    max-width:560px;
+  }
+  .cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-top:30px;
+    padding:14px 26px;
+    background:var(--terracotta);
+    color:var(--cover);
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    border-radius:2px;
+    transition:background 0.2s ease, transform 0.2s ease;
+  }
+  .cta-btn:hover{background:var(--terracotta-soft); transform:translateX(2px);}
+  #closing .footnote{
+    margin-top:70px;
+    font-size:12px;
+    color:rgba(244,239,227,0.4);
+    letter-spacing:0.04em;
+  }
+
+  /* reveal-on-scroll */
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  ::selection{background:var(--terracotta); color:var(--paper);}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="rail" aria-label="Section navigation">
+  <button class="rail-dot" data-target="cover"><span class="rail-num">00</span><span class="rail-bar"></span></button>
+  <button class="rail-dot" data-target="belief"><span class="rail-num">01</span><span class="rail-bar"></span></button>
+  <button class="rail-dot" data-target="review"><span class="rail-num">02</span><span class="rail-bar"></span></button>
+  <button class="rail-dot" data-target="discoveries"><span class="rail-num">03</span><span class="rail-bar"></span></button>
+  <button class="rail-dot" data-target="recommendations"><span class="rail-num">04</span><span class="rail-bar"></span></button>
+  <button class="rail-dot" data-target="summit"><span class="rail-num">05</span><span class="rail-bar"></span></button>
+  <button class="rail-dot" data-target="closing"><span class="rail-num">06</span><span class="rail-bar"></span></button>
+</nav>
+
+<div id="mobilebar">
+  <button data-target="cover">Cover</button>
+  <button data-target="belief">The Letter</button>
+  <button data-target="review">Current Efforts</button>
+  <button data-target="discoveries">Discoveries</button>
+  <button data-target="recommendations">Recommendations</button>
+  <button data-target="summit">Summit</button>
+  <button data-target="closing">Get In Touch</button>
+</div>
+
+<!-- COVER -->
+<section id="cover">
+  <div class="inner">
+    <div class="kicker">An international student-led initiative</div>
+    <h1>WE THE<br><span>STUDENTS</span></h1>
+    <p class="subhead">Changing the future of education — for a better tomorrow, today.</p>
+    <p class="tag">Open letter · July 2026</p>
+  </div>
+  <div class="scrolldown"><div class="chev"></div>Scroll to read</div>
+</section>
+
+<!-- BELIEF / ABOUT THE LETTER -->
+<section id="belief">
+  <div class="inner">
+    <div class="eyebrow reveal">The Open Letter</div>
+    <blockquote class="reveal">…believe that the rapid advancements in <span class="accent">generative artificial intelligence</span> will fundamentally change how we learn, work and live.</blockquote>
+
+    <p class="reveal">This letter draws on the findings of three key initiatives:</p>
+
+    <ol class="initiative-list reveal">
+      <li>
+        <p>An international and national student survey, examining how students across Australia and abroad are engaging with AI.</p>
+      </li>
+      <li>
+        <p>A student-led session at the E3 (Entrepreneurial Educators Exchange) Unconference in Sydney.
+        <span class="meta">16 May 2026 — gathering insights from Australian educators on student AI use in the classroom.</span></p>
+      </li>
+      <li>
+        <p>The NBCS (Northern Beaches Christian School) Summit on 'The Impacts of AI on Young People'.
+        <span class="meta">5 June 2026 — students, educators, academics and industry experts examining the impact of generative AI on education and the changing workforce.</span></p>
+      </li>
+    </ol>
+
+    <div class="aim-box reveal">
+      The aim of this letter is to communicate how effective current AI management strategies are, as well as what new ideas, challenges, and opportunities exist — and how changes would be best implemented to better prepare students for the changing workforce, whilst maintaining the core human traits, characteristics and skills that <em>'we the students'</em>, backed up by the experts, believe are important in the pursuit of a better future for all.
+    </div>
+
+    <p class="contact-line reveal">To get in touch, contact <a href="mailto:we.the.students.ai@gmail.com">we.the.students.ai@gmail.com</a></p>
+  </div>
+</section>
+
+<!-- REVIEW OF CURRENT EFFORTS -->
+<section id="review" class="shade">
+  <div class="inner">
+    <div class="eyebrow reveal">Part One</div>
+    <h2 class="reveal" style="font-size:clamp(30px,4.4vw,44px); margin-bottom:36px;">A review of current efforts</h2>
+
+    <div class="feature reveal">
+      <div class="num">01</div>
+      <div>
+        <h3>AI bans</h3>
+        <p>Collected data and opinions strongly suggest that bans on AI systems at schools are ineffective in curbing misuse, and make it more challenging for students to ethically obtain AI skills and literacy — a skill of utmost importance in the current workforce, set to grow further in importance according to industry experts.</p>
+      </div>
+    </div>
+
+    <div class="feature reveal">
+      <div class="num">02</div>
+      <div>
+        <h3>AI detection</h3>
+        <p>Educators unanimously agreed that AI detection in text-based work is poor, and "a waste of money." AI systems are trained on human data and thus produce human-like outputs, which can lead to false detection. It also substantially deteriorates the student–teacher relationship, with a significant impact on learning.</p>
+      </div>
+    </div>
+
+    <div class="feature reveal">
+      <div class="num">03</div>
+      <div>
+        <h3>Unguided adoption</h3>
+        <p>Teachers are trying to get students to use AI, yet students do not feel they are properly educated on how.</p>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="stat-num" data-target="86" data-suffix="%">0%</span><span class="stat-label">of students have been asked by a teacher to use Gen AI in the classroom</span></div>
+          <div class="stat-card"><span class="stat-num" data-target="51" data-suffix="%">0%</span><span class="stat-label">of students say they've never been educated on how to properly use Gen AI by anyone</span></div>
+          <div class="stat-card"><span class="stat-num" data-target="82" data-suffix="%">0%</span><span class="stat-label">of students use Gen AI at least weekly</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW DISCOVERIES -->
+<section id="discoveries">
+  <div class="inner">
+    <div class="eyebrow reveal">Part Two</div>
+    <h2 class="reveal" style="font-size:clamp(30px,4.4vw,44px); margin-bottom:36px;">New discoveries</h2>
+
+    <div class="feature reveal">
+      <div class="num">01</div>
+      <div>
+        <h3>A global issue</h3>
+        <p>Global surveying revealed that the challenges of AI in education are universal — across Australia, New Zealand, Asia, North America, Europe and Africa.</p>
+      </div>
+    </div>
+
+    <div class="feature reveal">
+      <div class="num">02</div>
+      <div>
+        <h3>A changing workforce</h3>
+        <p>In a workforce where AI is becoming ever more dominant, summit participants agreed on key human skills which will remain important in an AI-driven world:</p>
+        <ul>
+          <li>Dealing with and interpreting ambiguity and uncertainty</li>
+          <li>Resilience</li>
+          <li>Emotional and interpersonal skills — empathy, generosity, kindness, conflict resolution, negotiation, communication</li>
+          <li>Imagination</li>
+          <li>Creativity</li>
+          <li>Curiosity</li>
+          <li>Critical / independent thinking and judgement</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature reveal">
+      <div class="num">03</div>
+      <div>
+        <h3>Unequipped educators</h3>
+        <p>Educators are clear that they could significantly improve the education of their students if they themselves had more resources to learn, demonstrate and harness AI.</p>
+      </div>
+    </div>
+
+    <div class="feature reveal">
+      <div class="num">04</div>
+      <div>
+        <h3>A unique opportunity</h3>
+        <p>AI provides a unique opportunity to improve the education of students who have fallen behind, or who are ahead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIONABLE RECOMMENDATIONS -->
+<section id="recommendations" class="shade">
+  <div class="inner">
+    <div class="eyebrow reveal">Part Three</div>
+    <h2 class="reveal" style="font-size:clamp(30px,4.4vw,44px); margin-bottom:40px;">Actionable recommendations</h2>
+
+    <div class="rec-group reveal">
+      <div class="rec-head"><span class="tag">01</span><h3>Equip the system now</h3></div>
+      <ul>
+        <li>82% of students already use AI at least weekly. <em>Every day without action widens the gap</em> between students' reality and their education.</li>
+        <li>Federal and state governments must give schools one consistent, government-led framework for how AI can benefit students in learning.</li>
+        <li>Fund teacher training so educators can confidently model AI use — collected data shows student workforce readiness could nearly double from small, teacher-supported changes.</li>
+        <li>Track student AI use and readiness in aggregate, with privacy safeguards, and report publicly, so the public can hold government accountable.</li>
+      </ul>
+
+      <div class="meter-wrap reveal" id="meter">
+        <div class="meter-labels"><span>Student workforce readiness</span><span>out of 10</span></div>
+        <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
+        <div class="meter-caption"><span class="from">3.2</span> &nbsp;→&nbsp; <span class="to">6.1</span> with small, teacher-supported changes</div>
+      </div>
+    </div>
+
+    <div class="rec-group reveal">
+      <div class="rec-head"><span class="tag">02</span><h3>Teach AI with purpose</h3></div>
+      <ul>
+        <li>Mandate AI literacy in the curriculum, approaching the same weighting as core subjects.</li>
+        <li>Pair literacy with wellbeing: teach how AI and attention-driven algorithms actually work, and address over-reliance and isolation.</li>
+        <li>Support the use of AI to help teachers tailor learning to each student — extending those who are ahead and lifting those who have fallen behind, so no one is held back by a one-size-fits-all classroom.</li>
+      </ul>
+    </div>
+
+    <div class="rec-group reveal">
+      <div class="rec-head"><span class="tag">03</span><h3>Redesign how we assess learning</h3></div>
+      <ul>
+        <li>Shift assessments — including government standardised assessments — away from pure memorisation, towards human skills like imagination, creativity, reasoning and demonstration.</li>
+        <li>Instead of policing AI, exams and tasks should be built around the human skills that matter most in a world being driven and rapidly changed by AI.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SUMMIT ATTENDEES + SIGNATORIES -->
+<section id="summit">
+  <div class="inner">
+    <div class="eyebrow reveal">Who Was In The Room</div>
+    <h2 class="reveal" style="font-size:clamp(28px,4vw,38px); margin-bottom:30px;">Summit attendees</h2>
+
+    <div class="people-grid reveal">
+      <div class="people-block">
+        <h4>Hosts</h4>
+        <p>Danny Liu, Hannes Ennemann, Jedd De Gouveia, Ophelia Morgan, Madeleine O'Connor, Olly Williams, Aden Wong, Mitchell Hedger, Sam Husband, Mitchell Perry, Cate Whitaker, Jack Kleemeyer, Ella Leone, Josh Young, Liz Delevaux, Drew Dickson, Ben Carlisle, Charlotte Davies.</p>
+      </div>
+      <div class="people-block">
+        <h4>Speakers &amp; Presenters</h4>
+        <p>Prof. Robert Tai, Dr Jack Muir, Victor Rodrigues, Max Tennant, Lesley Honeyman, Ryan Dorrington, Emma Collins, Dr Rachel Perry, Jason Liu, Beryl Truong, Margaret O'Brien, Andrew Williams, Guy Treves, Lewis Evans, Tim Watson.</p>
+      </div>
+      <div class="people-block">
+        <h4>Educators</h4>
+        <p>Rick Dufourq, Mark Liddell, Annika Williams, Adam Demasi, Kate Lee, Patrice Marchbank, Dr Alison Gates, Jonathan Adams, Graham Baike.</p>
+      </div>
+      <div class="people-block">
+        <h4>Observers</h4>
+        <p>Pip Walker, Jacqui Scruby MP, Michael Regan MP, Briseida Tran.</p>
+      </div>
+    </div>
+
+    <div class="people-block reveal" style="margin-top:36px;">
+      <h4>Students</h4>
+      <p>Ollie Langston, Jimmy Montgomery, Alec Barwell, Sienna Crompton, Gemma Berry, Jasper Lowe, Aidan Kempen, Zac Ottery, Lucas Toms, Arabella Kuras, Asher McNeil, Charlie Hume, Gemma Zietsman, Stephanie Liu, Aysha Hogan, Sophie Steele, Ella Spedding, Archie King, Sienna Berry, Neil Kongot, Elsa Johnston, Hal Cassisi-Nichols, Felix Zhou, James Kollo, Flynn Greenow, Alan Wu, Daniel Nazra, Hannes Liu, Lewis Christie, Sean Xin, Elliott Storer, Fin Moore, Mahan Jagtiani, Charlotte Chang, Laura Hou, Dineli Jayasekara, Abigail Li, Annalise Low, Ruby Brooks, Emma Lugtenburg, Shiloh McGlone, Matilda Altschwager, Florence Hawks, Olivia Chow, Shreya Gupta, Briar Qiu, Casey Byrne, Tristan Kaaeber, Kairos Bech.</p>
+    </div>
+
+    <h2 class="reveal" style="font-size:clamp(28px,4vw,38px); margin:64px 0 8px;">Key signatories</h2>
+    <p class="reveal" style="color:var(--muted); margin-bottom:0;">Signed in support of this letter.</p>
+
+    <div class="sig-grid reveal">
+      <div class="sig-card"><div class="sig-name-script">R. H. Tai</div><div class="sig-underline"></div><div class="sig-role">Prof. Robert Hsiencheng Tai<br>Expert</div></div>
+      <div class="sig-card"><div class="sig-name-script">D. Liu</div><div class="sig-underline"></div><div class="sig-role">Prof. Danny Liu<br>Expert</div></div>
+      <div class="sig-card"><div class="sig-name-script">M. Regan</div><div class="sig-underline"></div><div class="sig-role">Michael Regan<br>NSW MP</div></div>
+      <div class="sig-card"><div class="sig-name-script">E. Collins</div><div class="sig-underline"></div><div class="sig-role">Emma Collins<br>Educator</div></div>
+      <div class="sig-card"><div class="sig-name-script">O. Handisides</div><div class="sig-underline"></div><div class="sig-role">Oliver Handisides<br>Student</div></div>
+      <div class="sig-card"><div class="sig-name-script">C. Whitaker</div><div class="sig-underline"></div><div class="sig-role">Cate Whitaker<br>Student</div></div>
+      <div class="sig-card"><div class="sig-name-script">O. Morgan</div><div class="sig-underline"></div><div class="sig-role">Ophelia Morgan<br>Student</div></div>
+      <div class="sig-card"><div class="sig-name-script">M. Perry</div><div class="sig-underline"></div><div class="sig-role">Mitchell Perry<br>Student</div></div>
+      <div class="sig-card"><div class="sig-name-script">A. Wong</div><div class="sig-underline"></div><div class="sig-role">Aden Ye Sen Wong<br>Student</div></div>
+      <div class="sig-card"><div class="sig-name-script">H. Ennemann</div><div class="sig-underline"></div><div class="sig-role">Hannes Ennemann<br>Student &amp; We The Students co-lead</div></div>
+      <div class="sig-card"><div class="sig-name-script">J. De Gouveia</div><div class="sig-underline"></div><div class="sig-role">Jedd De Gouveia<br>Student &amp; We The Students co-lead</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <div class="inner">
+    <div class="eyebrow reveal">Join Us</div>
+    <h2 class="reveal">Changing the future of education — for a better tomorrow, today.</h2>
+    <p class="reveal">We The Students is an international student-led initiative. If you're an educator, policymaker, researcher or student who wants to help shape how AI is used in learning, we'd like to hear from you.</p>
+    <a class="cta-btn reveal" href="mailto:we.the.students.ai@gmail.com">Get in touch — we.the.students.ai@gmail.com ↗</a>
+    <p class="footnote">We The Students · An international student-led initiative</p>
+  </div>
+</section>
+
+<script>
+  // ---- section registry ----
+  const sectionIds = ["cover","belief","review","discoveries","recommendations","summit","closing"];
+  const sections = sectionIds.map(id => document.getElementById(id));
+  const railDots = Array.from(document.querySelectorAll(".rail-dot"));
+  const mobileBtns = Array.from(document.querySelectorAll("#mobilebar button"));
+  const rail = document.getElementById("rail");
+  const darkSections = new Set(["cover","closing"]);
+
+  function scrollToId(id){
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:"smooth"});
+  }
+  railDots.forEach(btn => btn.addEventListener("click", () => scrollToId(btn.dataset.target)));
+  mobileBtns.forEach(btn => btn.addEventListener("click", () => scrollToId(btn.dataset.target)));
+
+  // ---- progress bar ----
+  const progressEl = document.getElementById("progress");
+  function updateProgress(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressEl.style.width = pct + "%";
+  }
+
+  // ---- active section tracking ----
+  function setActive(id){
+    railDots.forEach(d => d.classList.toggle("active", d.dataset.target === id));
+    mobileBtns.forEach(d => d.classList.toggle("active", d.dataset.target === id));
+    rail.classList.toggle("on-dark", darkSections.has(id));
+  }
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        setActive(entry.target.id);
+      }
+    });
+  }, {threshold: 0.5});
+  sections.forEach(s => sectionObserver.observe(s));
+
+  window.addEventListener("scroll", updateProgress, {passive:true});
+  updateProgress();
+  setActive("cover");
+
+  // ---- reveal on scroll ----
+  const revealEls = document.querySelectorAll(".reveal");
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add("in");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ---- animated stat counters ----
+  const statEls = document.querySelectorAll(".stat-num[data-target]");
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const suffix = el.dataset.suffix || "";
+        let start = 0;
+        const duration = 1100;
+        const startTime = performance.now();
+        function tick(now){
+          const p = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          const val = Math.round(eased * target);
+          el.textContent = val + suffix;
+          if(p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        statObserver.unobserve(el);
+      }
+    });
+  }, {threshold:0.4});
+  statEls.forEach(el => statObserver.observe(el));
+
+  // ---- readiness meter fill ----
+  const meterFill = document.getElementById("meterFill");
+  const meterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        meterFill.style.width = "61%";
+        meterObserver.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.4});
+  const meterEl = document.getElementById("meter");
+  if(meterEl) meterObserver.observe(meterEl);
+</script>
+</body>
+</html>
